@@ -88,95 +88,95 @@
            :if-new (file+head "${slug}.org" "#+title: ${title}\n#+date: %<%Y-%m-%d>\n* ${title}\n%?")
            :unarrowed t)))
 
-  (org-roam-db-autosync-mode t))
+  (org-roam-db-autosync-mode t)
 
-(after! citar
-  (setq citar-bibliography '("~/org/bib/mylib.bib")))
+  (after! citar
+    (setq citar-bibliography '("~/org/bib/mylib.bib")))
 
-(after! bibtex-completion
-  (setq bibtex-completion-notes-path "~/org/roam/"
-        bibtex-completion-bibliography '("~/org/bib/mylib.bib")
-        bibtex-completion-pdf-field "file"
-        bibtex-completion-notes-template-multiple-files
-        (concat
-         "#+title: ${title}\n"
-         "#+roam_key: cite:${=key=}\n"
-         "#+roam_tags: ${keywords}\n"
-         "* TODO Notes\n"
-         ":PROPERTIES:\n"
-         ":Custom_ID: ${=key=}\n"
-         ":NOTER_DOCUMENT: ${file}\n"
-         ":AUTHOR: ${author-abbrev}\n"
-         ":JOURNAL: ${journaltitle}\n"
-         ":DATE: ${date}\n"
-         ":YEAR: ${year}\n"
-         ":DOI: ${doi}\n"
-         ":URL: ${url}\n"
-         ":END:\n\n")))
+  (after! bibtex-completion
+    (setq bibtex-completion-notes-path "~/org/roam/"
+          bibtex-completion-bibliography '("~/org/bib/mylib.bib")
+          bibtex-completion-pdf-field "file"
+          bibtex-completion-notes-template-multiple-files
+          (concat
+           "#+title: ${title}\n"
+           "#+roam_key: cite:${=key=}\n"
+           "#+roam_tags: ${keywords}\n"
+           "* TODO Notes\n"
+           ":PROPERTIES:\n"
+           ":Custom_ID: ${=key=}\n"
+           ":NOTER_DOCUMENT: ${file}\n"
+           ":AUTHOR: ${author-abbrev}\n"
+           ":JOURNAL: ${journaltitle}\n"
+           ":DATE: ${date}\n"
+           ":YEAR: ${year}\n"
+           ":DOI: ${doi}\n"
+           ":URL: ${url}\n"
+           ":END:\n\n")))
 
-(after! tex
-  (setq reftex-default-bibliography "~/bib/mylib.bib"))
+  (after! tex
+    (setq reftex-default-bibliography "~/bib/mylib.bib"))
 
-(use-package! org-ref
-  :config
-  (setq org-ref-completion-library 'org-ref-ivy-cite
-        org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
-        org-ref-notes-directory "~/org/roam/"
-        org-ref-notes-function 'orb-edit-notes
-        org-ref-note-title-format
-        (concat
-         "* TODO %y - %t\n"
-         "  :PROPERTIES:\n"
-         "  :Custom_ID: %k\n"
-         "  :NOTER_DOCUMENT: %F\n"
-         "  :ROAM_KEY: cite:%k\n"
-         "  :AUTHOR: %9a\n"
-         "  :JOURNAL: %j\n"
-         "  :YEAR: %y\n"
-         "  :VOLUME: %v\n"
-         "  :PAGES: %p\n"
-         "  :DOI: %D\n"
-         "  :URL: %U\n"
-         "  :END:\n\n")))
+  (use-package! org-ref
+    :config
+    (setq org-ref-completion-library 'org-ref-ivy-cite
+          org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
+          org-ref-notes-directory "~/org/roam/"
+          org-ref-notes-function 'orb-edit-notes
+          org-ref-note-title-format
+          (concat
+           "* TODO %y - %t\n"
+           "  :PROPERTIES:\n"
+           "  :Custom_ID: %k\n"
+           "  :NOTER_DOCUMENT: %F\n"
+           "  :ROAM_KEY: cite:%k\n"
+           "  :AUTHOR: %9a\n"
+           "  :JOURNAL: %j\n"
+           "  :YEAR: %y\n"
+           "  :VOLUME: %v\n"
+           "  :PAGES: %p\n"
+           "  :DOI: %D\n"
+           "  :URL: %U\n"
+           "  :END:\n\n")))
 
-(use-package! org-roam-bibtex
-  :after org-roam
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :config
-  (setq org-roam-bibtex-preformat-keywords
-        '("=key=" "title" "file" "author-or-editor" "keywords")
-        orb-process-file-keyword t
-        orb-process-file-field t
-        orb-attached-file-extensions '("pdf"))
-  (setq orb-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point)
-           ""
-           :file-name "${slug}"
-           :head (concat
-                  "#+title: ${=key=}: ${title}\n"
-                  "#+roam_key: ${ref}\n"
-                  "#+roam_tags:\n\n"
-                  "- keywords :: ${keywords}\n\n"
-                  "* ${title}\n"
-                  "  :PROPERTIES:\n"
-                  "  :Custom_ID: ${=key=}\n"
-                  "  :URL: ${url}\n"
-                  "  :AUTHOR: ${author-or-editor}\n"
-                  "  :NOTER_DOCUMENT: ${file}\n"
-                  "  :NOTER_PAGE: \n"
-                  "  :END:\n\n")
-           :unnarrowed t))))
+  (use-package! org-roam-bibtex
+    :after org-roam
+    :hook (org-roam-mode . org-roam-bibtex-mode)
+    :config
+    (setq org-roam-bibtex-preformat-keywords
+          '("=key=" "title" "file" "author-or-editor" "keywords")
+          orb-process-file-keyword t
+          orb-process-file-field t
+          orb-attached-file-extensions '("pdf"))
+    (setq orb-templates
+          '(("r" "ref" plain (function org-roam-capture--get-point)
+             ""
+             :file-name "${slug}"
+             :head (concat
+                    "#+title: ${=key=}: ${title}\n"
+                    "#+roam_key: ${ref}\n"
+                    "#+roam_tags:\n\n"
+                    "- keywords :: ${keywords}\n\n"
+                    "* ${title}\n"
+                    "  :PROPERTIES:\n"
+                    "  :Custom_ID: ${=key=}\n"
+                    "  :URL: ${url}\n"
+                    "  :AUTHOR: ${author-or-editor}\n"
+                    "  :NOTER_DOCUMENT: ${file}\n"
+                    "  :NOTER_PAGE: \n"
+                    "  :END:\n\n")
+             :unnarrowed t))))
 
-(use-package! org-noter
-  :after (:any org pdf-view org-roam-bibtex)
-  :config
-  (setq org-noter-notes-window-location 'other-frame
-        org-noter-always-create-frame nil
-        org-noter-hide-other nil
-        org-noter-notes-search-path '("~/org/roam/")))
-
-(use-package! elcord
-  :init (elcord-mode))
+  (use-package! org-noter
+    :after (:any org pdf-view org-roam-bibtex)
+    :config
+    (setq org-noter-notes-window-location 'other-frame
+          org-noter-always-create-frame nil
+          org-noter-hide-other nil
+          org-noter-notes-search-path '("~/org/roam/"))))
 
 (use-package! treemacs
   :bind ("M-0" . treemacs-select-window))
+
+(use-package! elcord
+  :init (elcord-mode))
