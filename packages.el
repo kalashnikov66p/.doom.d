@@ -48,5 +48,23 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+(package! org-roam-bibtex
+  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+
+(package! org-roam-ui
+  :recipe (:host github :repo "org-roam/org-roam-ui"))
+
+(package! org-ref
+  :recipe (:host github :repo "jkitchin/org-ref"))
+
+(package! elcord
+  :recipe (:host github :repo "Mstrodl/elcord"))
+
+(package! prisma-mode
+  :recipe (:host github :repo "pimeys/emacs-prisma-mode"))
+
+;; When using org-roam via the `+roam` flag
 (unpin! org-roam)
-(package! org-roam-ui)
+
+;; When using bibtex-completion via the `biblio` module
+(unpin! bibtex-completion helm-bibtex ivy-bibtex)

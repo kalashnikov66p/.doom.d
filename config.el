@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "kalashnikov66p"
-      user-mail-address "kalashnikov66@proton.me")
+(setq user-full-name "John Doe"
+      user-mail-address "john@doe.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -24,6 +24,8 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;
+(setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'semi-light))
+
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -42,36 +44,7 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-(after! org-noter
-  (setq org-noter-notes-search-path '("~/org/notes/")))
 
-(after! org-roam
-  (setq org-roam-directory (file-truename "~/org/roam/")
-        org-roam-capture-templates
-        '(("d" "Default" plain
-           "%?"
-           :if-new (file+head "${slug}.org" "#+title: ${title}\n#+date: %<%Y-%m-%d>\n")
-           :unarrowed t)))
-
-  (org-roam-db-autosync-mode t)
-
-  (after! citar
-    (setq citar-bibliography '("~/bib/mylib.bib")))
-
-  (after! bibtex-completion
-    (setq! bibtex-completion-notes-path org-roam-directory
-           bibtex-completion-pdf-field "file")))
-
-(use-package! websocket
-  :after org-roam)
-
-(use-package! org-roam-ui
-  :after org-roam
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -103,3 +76,41 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(after! solidity-mode
+  (setq solidity-solc-path "/opt/solidity/solc/solc"
+        solidity-solium-path "/usr/bin/solium"))
+
+(after! org-roam
+  (setq org-roam-directory "~/org/roam/"
+        org-roam-capture-templates
+        '(("d" "Default" plain
+           "%?"
+           :if-new (file+head "${slug}.org" "#+title: ${title}\n#+date: %<%Y-%m-%d>\n* ${title}\n%?")
+           :unarrowed t)))
+
+  (org-roam-db-autosync-mode t))
+
+(after! citar
+  (setq citar-bibliography '("~/bib/mylib.bib")))
+
+(after! bibtex-completion
+  (setq bibtex-completion-notes-path "~/org/roam/"
+        bibtex-completion-bibliography '("~/bib/mylib.bib")
+        bibtex-completion-pdf-field "file"))
+
+(after! tex
+  (setq reftex-default-bibliography "~/bib/mylib.bib"))
+
+(after! org-noter
+  (setq org-noter-notes-search-path '("~/org/notes/")))
+
+(use-package! org-roam-bibtex
+  :after org-roam
+  :config
+  (require 'org-ref))
+
+(use-package! elcord
+  :init (elcord-mode))
+
+(use-package! treemacs
+  :bind ("M-0" . treemacs-select-window))
